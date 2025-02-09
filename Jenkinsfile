@@ -17,7 +17,7 @@ pipeline {
         stage('Checkout') {
             steps {
                 echo "📥 Clonando código fuente desde GitHub..."
-                git branch: 'develop', credentialsId: GITHUB_CREDENTIALS, url: GITHUB_REPO
+                git branch: 'main', credentialsId: GITHUB_CREDENTIALS, url: GITHUB_REPO
             }
         }
         stage('Build Docker Image') {
@@ -48,7 +48,7 @@ pipeline {
                     docker pull ${DOCKER_REGISTRY}/${DOCKER_IMAGE}:${DOCKER_TAG}
                     docker stop ${DOCKER_IMAGE} || true
                     docker rm -f ${DOCKER_IMAGE} || true
-                    docker run -d --restart unless-stopped --name ${DOCKER_IMAGE} -p 8080:8080 ${DOCKER_REGISTRY}/${DOCKER_IMAGE}:${DOCKER_TAG}
+                    docker run -d --restart unless-stopped --name ${DOCKER_IMAGE} -p 3030:3030 ${DOCKER_REGISTRY}/${DOCKER_IMAGE}:${DOCKER_TAG}
                     exit
                     ENDSSH
                     """
